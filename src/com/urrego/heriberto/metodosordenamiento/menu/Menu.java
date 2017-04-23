@@ -15,6 +15,7 @@ import java.util.Scanner;
  */
 public abstract class Menu {
 
+    private static int TipodeDato = 0;
 
     public static void getMenuPrincipal () throws IOException {
 
@@ -30,7 +31,7 @@ public abstract class Menu {
                     "2.Llenar archivo '.txt'.");
 
             if(Lista.exists()) {
-               System.out.println("3.ordenar archivo actual '.txt'.");
+                System.out.println("3.ordenar archivo actual '.txt'.");
             }
 
             System.out.println("0.Salir.");
@@ -68,13 +69,11 @@ public abstract class Menu {
                 break;
 
             case "2"://Llenar archivo txt
-                getMenuTamanoTXT(Lista);
+                MenuTipoInt(Lista);
                 break;
 
             case "3"://ordenar
                 if(Lista.exists()) {
-
-                    System.out.println("3.Llenar archivo '.txt'.\n");
 
                     getMenuMetodoOrfenamiento(Lista);
                     break;
@@ -94,6 +93,27 @@ public abstract class Menu {
 
     }
 
+    public static void MenuTipoInt (File Lista) throws IOException {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("[ELIJA TIPO DE ENTEROS]\n\n" +
+                "1. Negativos y Positivos.\n" +
+                "2. Positivos.");
+
+        try {
+            TipodeDato = sc.nextInt();
+
+        }catch (java.util.InputMismatchException ex){
+            System.out.println("[ERROR: Ingrese una opcion valida.]\n\n");
+        }
+
+        if ((TipodeDato == 1)||(TipodeDato == 2)){
+            getMenuTamanoTXT(Lista);
+        }else{
+            MenuTipoInt(Lista);
+        }
+    }
 
 
     public static void getMenuTamanoTXT (File Lista) throws IOException {
@@ -154,10 +174,17 @@ public abstract class Menu {
         // llenado de archivo
         BufferedWriter bw;
         bw = new BufferedWriter(new FileWriter(Lista));
+        int numero;
 
         for (int i=0; i<= limite; i++){
             Random lista= new Random();
-            int numero = (lista.nextInt(199999) - 99999);
+
+            if (TipodeDato == 2){
+                numero = (lista.nextInt(99999) + 1);
+            }else {
+                numero = (lista.nextInt(199999) - 99999);
+            }
+
             bw.write(numero+" ");
         }
         bw.close();
@@ -178,7 +205,9 @@ public abstract class Menu {
                 "4.Merge\n" +
                 "5.Seleccion\n" +
                 "6.Shell\n" +
-                "7.RadixSort\n" +
+                "7.Counting\n" +
+                "8.Radix\n" +
+                "9.Heap\n" +
                 "0.Volver a Inicio.");
 
         opcion = sc.nextLine();
@@ -236,9 +265,27 @@ public abstract class Menu {
 
                 break;
 
-                case "7"://Radixsort
+            case "7"://Countingsort
 
-                metodoOrdenamiento = new Radix();
+                metodoOrdenamiento = new CountingSort();
+                metodoOrdenamiento.ordenamiento(MetodosArchivoTxt.convertiEnArray(Lista));
+
+                break;
+
+            case "8"://Radix
+
+                if (TipodeDato == 2){
+                    metodoOrdenamiento = new Radix();
+                    metodoOrdenamiento.ordenamiento(MetodosArchivoTxt.convertiEnArray(Lista));
+                }else{
+                    System.out.println("[ERROR: Este metodo solo aplica para listas con enteros positivos.]\n\n");
+                }
+
+                break;
+
+            case "9"://Heap
+
+                metodoOrdenamiento = new Heap();
                 metodoOrdenamiento.ordenamiento(MetodosArchivoTxt.convertiEnArray(Lista));
 
                 break;
