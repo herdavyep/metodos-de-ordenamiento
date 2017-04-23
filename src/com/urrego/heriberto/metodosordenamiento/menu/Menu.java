@@ -25,12 +25,14 @@ public abstract class Menu {
         Scanner sc = new Scanner(System.in);
         String opcion = "";
 
-        while (opcion != "0"){
+        while (!"0".equals(opcion)){
+
             System.out.println("[METODOS ORDENAMIENDO - MENU PRINCIPAL]\n\n" +
                     "1.Crear archivo '.txt'.\n" +
                     "2.Llenar archivo '.txt'.");
 
             if(Lista.exists()) {
+
                 System.out.println("3.ordenar archivo actual '.txt'.");
             }
 
@@ -38,7 +40,8 @@ public abstract class Menu {
 
             opcion = sc.nextLine();
 
-            if (opcion != "0"){
+            if (!"0".equals(opcion)){
+
                 setMenuPrincipal(opcion);
 
             }
