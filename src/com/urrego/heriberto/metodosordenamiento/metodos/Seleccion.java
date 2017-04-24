@@ -9,6 +9,7 @@ import java.io.IOException;
  * Created by Afuro,Heriberto on 18/04/2017.
  */
 public class Seleccion implements InterfaceMetodo{
+
     @Override
     public void ordenamiento(int[] arregloint) throws IOException {
 
